@@ -145,7 +145,7 @@ PADDR,PWDATA,PSTRB,DataReceived,Busy);
     /////
 
     integer i;
-    always@(*)      //Generic Demuxer for PSELx
+    always@(*)      //Generic Demuxer 
     begin
         for(i=0; i<Slaves; i=i+1)
             PSELx[i] = ((i==Sel)&&(EnPSELxDeco)) ? 1'b1 : 1'b0;
