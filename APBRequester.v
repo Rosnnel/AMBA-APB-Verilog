@@ -2,8 +2,8 @@ module APBRequester #(parameter DataWidth = 32, AddrWidth = 32, Slaves = 4)
 (PCLK,reset,Start,RD,WR,Addr,Sel,SendData,Strb,PREADY,PRDATA,PSELx,PENABLE,PWRITE,
 PADDR,PWDATA,PSTRB,DataReceived,Busy);
 
-    localparam StrbWidth = DataWidth/8,
-               DecoSlaves = $clog2(Slaves);
+    localparam StrbWidth = DataWidth/8;
+    localparam DecoSlaves = (Slaves>1) ? $clog2(Slaves) : 1;
 
 
     input PCLK,reset,Start,RD,WR,PREADY;
