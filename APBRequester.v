@@ -155,7 +155,7 @@ PADDR,PWDATA,PSTRB,DataReceived,Busy);
     begin
         PADDR <= (EnPADDR) ? Addr : PADDR;
         PWDATA <= (EnPWData) ? SendData : PWDATA;
-        PSTRB <= (EnPStrb) ? Strb : PSTRB;
+        PSTRB <= (EnPStrb) ? Strb : 0;
         DataReceived <= (EnPRDataReg) ? PRDATA : DataReceived;
     end
 
