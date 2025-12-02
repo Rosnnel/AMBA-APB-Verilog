@@ -1,16 +1,16 @@
 module APBCompleter #(parameter DataWidth = 32, AddrWidth = 32)
 (PCLK,reset,PSEL,PWRITE,PENABLE,RespReady,PSTRB,PWDATA,PADDR,PRDATA,PREADY,
-Address,ReceivedData,ResponseData);
+Address,ReceivedData,ResponseData,Busy);
 
     localparam StrbWidth = DataWidth/8;
 
     input PCLK,reset,PSEL,PWRITE,PENABLE,RespReady;
     input [StrbWidth-1:0] PSTRB;
-    input [DataWidth-1:0] PWDATA,PRDATA,ResponseData;
+    input [DataWidth-1:0] PWDATA,ResponseData;
     input [AddrWidth-1:0] PADDR;
-    output reg PREADY;
+    output reg PREADY,Busy;
     output reg [AddrWidth-1:0] Address;
-    output reg [DataWidth-1:0] ReceivedData;
+    output reg [DataWidth-1:0] ReceivedData,PRDATA;
 
     /////FSM Logic
     localparam Idle = 2'b00,
@@ -100,19 +100,18 @@ Address,ReceivedData,ResponseData);
     always@(posedge PCLK)
     begin
         Address <= (PADDRReg) ? PADDR : Address;
-        PRDATA <= (PRDATAReg) ? PRDATAReg : PRDATA;
+        PRDATA <= (PRDATAReg) ? ResponseData : PRDATA;
     end
 
     integer i;
-    always@(posedge PCLK)
+    always@(posedge PCLK or posedge reset)
     begin
-        if(PWDATAReg)
+        for(i=0; i<StrbWidth; i=i+1)
         begin
-            for(i=0; i<StrbWidth; i=i+1)
-            begin
-                if(PSTRB[i])
-                    ReceivedData[i*8 +: 8] <= PWDATA[i*8 +: 8];
-            end
+            if(reset)
+                ReceivedData[i] <= 0; 
+            else if(PWDATAReg&&PSTRB[i])
+                ReceivedData[i*8 +: 8] <= PWDATA[i*8 +: 8];
         end
     end
 
