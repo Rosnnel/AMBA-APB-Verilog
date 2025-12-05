@@ -1,3 +1,6 @@
+    //SPDX-License-Identifier: CERN-OHL-S-2.0
+    //© 2025 Rosnnel Moncada
+
 module APBCompleter #(parameter DataWidth = 32, AddrWidth = 32)
 (PCLK,reset,PSEL,PWRITE,PENABLE,RespReady,PSTRB,PWDATA,PADDR,PRDATA,PREADY,
 Address,ReceivedData,ResponseData,Busy);

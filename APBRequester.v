@@ -1,3 +1,6 @@
+    //SPDX-License-Identifier: CERN-OHL-S-2.0
+    //© 2025 Rosnnel Moncada
+
 module APBRequester #(parameter DataWidth = 32, AddrWidth = 32, Slaves = 4)
 (PCLK,reset,Start,RD,WR,Addr,Sel,SendData,Strb,PREADY,PRDATA,PSELx,PENABLE,PWRITE,
 PADDR,PWDATA,PSTRB,DataReceived,Busy);
